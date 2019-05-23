@@ -32,29 +32,33 @@ users.sort(function(a, b){
 });
 console.log(users);
 
-
-var arrCompany = [];
-for (var i=0; i< companies.length; i++){
-    var arrDept = [];
-    for (var j = 0; j<departments.length; j++){
-        if (companies[i].id === departments[j].companyId){
-            var arrUsers = [];
-            for (var k = 0; k<users.length; k++){
-                if (departments[j].id === users[k].departmentId){
-                    arrUsers.push({"username": users[k].username,
-                        "point": users[k].point});
+function result_map_array(companies, departments, users){
+    var arrCompany = [];
+    for (var i=0; i< companies.length; i++){
+        var arrDept = [];
+        for (var j = 0; j<departments.length; j++){
+            if (companies[i].id === departments[j].companyId){
+                var arrUsers = [];
+                for (var k = 0; k<users.length; k++){
+                    if (departments[j].id === users[k].departmentId){
+                        arrUsers.push({"username": users[k].username,
+                            "point": users[k].point});
+                    }
                 }
+                arrDept.push({"departmentCode,": departments[j].code,
+                    "departmentName": departments[j].name,
+                    "users": arrUsers});
             }
-            arrDept.push({"departmentCode,": departments[j].code,
-                "departmentName": departments[j].name,
-                "users": arrUsers});
         }
+        arrCompany.push({
+            "companyCode": companies[i].code,
+            "companyName": companies[i].name,
+            "departments": arrDept
+        });
     }
-    arrCompany.push({
-        "companyCode": companies[i].code,
-        "companyName": companies[i].name,
-        "departments": arrDept
-    });
+    return arrCompany;
 }
+
+var arrCompany = result_map_array(companies, departments, users);
 console.log(arrCompany);
 
